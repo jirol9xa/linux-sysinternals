@@ -3,6 +3,8 @@
 #include "processtreemodel.h"
 #include "../convert.h"
 
+#include <cmath>
+
 ProcessTreeModel::ProcessTreeModel(QObject* parent)
     : QAbstractItemModel(parent)
 {

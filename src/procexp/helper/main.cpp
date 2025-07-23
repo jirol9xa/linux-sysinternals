@@ -18,9 +18,9 @@ void handler(struct proc_event event)
     QDBusMessage m;
 
     switch (event.what) {
-    case event.PROC_EVENT_NONE:
+    case proc_cn_event::PROC_EVENT_NONE:
         break;
-    case event.PROC_EVENT_FORK:
+    case proc_cn_event::PROC_EVENT_FORK:
         std::cout << "[FORK] parent " << event.event_data.fork.parent_pid << ", child " << event.event_data.fork.child_pid << std::endl;
         m = QDBusMessage::createSignal(HELPER_PATH, HELPER_SERVICE, "fork");
         m << event.event_data.fork.parent_pid;
@@ -29,14 +29,14 @@ void handler(struct proc_event event)
         m << event.event_data.fork.child_tgid;
         bus.send(m);
         break;
-    case event.PROC_EVENT_EXEC:
+    case proc_cn_event::PROC_EVENT_EXEC:
         std::cout << "[EXEC] process " << event.event_data.exec.process_pid << std::endl;
         m = QDBusMessage::createSignal(HELPER_PATH, HELPER_SERVICE, "exec");
         m << event.event_data.exec.process_pid;
         m << event.event_data.exec.process_tgid;
         bus.send(m);
         break;
-    case event.PROC_EVENT_UID:
+    case proc_cn_event::PROC_EVENT_UID:
         m = QDBusMessage::createSignal(HELPER_PATH, HELPER_SERVICE, "uid");
         m << event.event_data.id.process_pid;
         m << event.event_data.id.process_tgid;
@@ -44,7 +44,7 @@ void handler(struct proc_event event)
         m << event.event_data.id.e.euid;
         bus.send(m);
         break;
-    case event.PROC_EVENT_GID:
+    case proc_cn_event::PROC_EVENT_GID:
         m = QDBusMessage::createSignal(HELPER_PATH, HELPER_SERVICE, "gid");
         m << event.event_data.id.process_pid;
         m << event.event_data.id.process_tgid;
@@ -52,7 +52,7 @@ void handler(struct proc_event event)
         m << event.event_data.id.e.egid;
         bus.send(m);
         break;
-    case event.PROC_EVENT_EXIT:
+    case proc_cn_event::PROC_EVENT_EXIT:
         m = QDBusMessage::createSignal(HELPER_PATH, HELPER_SERVICE, "exit");
         m << event.event_data.exit.process_pid;
         m << event.event_data.exit.process_tgid;
