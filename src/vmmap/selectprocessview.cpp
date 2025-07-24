@@ -58,13 +58,13 @@ void SelectProcessView::refresh()
     QStringList headers;
     headers << "Name" << "PID" << "User";
     // get processes
-    m_processes = processList();
+    auto processes = processList();
     // filter on username
     uid_t uid = geteuid();
     struct passwd *pw = getpwuid(uid);
     std::string username = std::string(pw->pw_name);
     std::vector<ProcessInfo> m_processes_user;
-    for (ProcessInfo& p : m_processes)
+    for (ProcessInfo& p : processes)
     {
         if (p.userName() == username)
             m_processes_user.push_back(p);

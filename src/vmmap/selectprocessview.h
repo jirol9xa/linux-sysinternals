@@ -25,7 +25,8 @@ private:
     void center();
 
     Ui::SelectProcessView *ui;
-    std::vector<ProcessInfo> m_processes;
+    // Redundant field
+    // std::vector<ProcessInfo> m_processes;
 
 private slots:
     void refresh();
