@@ -59,6 +59,9 @@ void SelectProcessView::refresh()
     headers << "Name" << "PID" << "User";
     // get processes
     auto processes = processList();
+
+    std::cout << "Processes amnt = " << processes.size() << std::endl;
+
     // filter on username
     uid_t uid = geteuid();
     struct passwd *pw = getpwuid(uid);
@@ -66,6 +69,11 @@ void SelectProcessView::refresh()
     std::vector<ProcessInfo> m_processes_user;
     for (ProcessInfo& p : processes)
     {
+        if (p.ppid() == 0) {
+            // FIXME
+            continue;
+        }
+
         if (p.userName() == username)
             m_processes_user.push_back(p);
     }
