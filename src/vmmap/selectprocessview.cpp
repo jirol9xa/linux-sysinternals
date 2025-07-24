@@ -69,11 +69,7 @@ void SelectProcessView::refresh()
     std::vector<ProcessInfo> m_processes_user;
     for (ProcessInfo& p : processes)
     {
-        if (p.ppid() == 0) {
-            // FIXME
-            continue;
-        }
-
+        // TODO: Add a flag for printing all or only user specific processes
         if (p.userName() == username)
             m_processes_user.push_back(p);
     }
