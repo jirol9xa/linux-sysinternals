@@ -3,6 +3,7 @@
 #include <QCoreApplication>
 #include <iostream>
 #include <unistd.h>
+#include <linux/version.h>
 
 #include "procconnector.h"
 #include "procexphelper.h"
@@ -16,6 +17,12 @@ void handler(struct proc_event event)
 {
     QDBusConnection bus = QDBusConnection::systemBus();
     QDBusMessage m;
+
+    #if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 0, 0)
+        #define MAKE_CASE(name) proc_cn_event::name
+    #else
+        #define MAKE_CASE(name) event.name
+    #endif
 
     switch (event.what) {
     case proc_cn_event::PROC_EVENT_NONE:
@@ -62,6 +69,8 @@ void handler(struct proc_event event)
     default:
         break;
     }
+
+    #undef MAKE_CASE
 }
 
 int main(int argc, char* argv[])
